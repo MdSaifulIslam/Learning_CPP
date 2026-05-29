@@ -1,0 +1,21 @@
+/* Visual Studio Settings File */
+{
+  "copilot.general.test.enableInitialCoverage": false,
+  "copilot.general.test.enabled": false,
+  "copilot.general.chat.enableMemoryDetection": false,
+  "copilot.general.chat.flashTaskbarOnToolConfirmation": false,
+  "copilot.general.chat.errorDiagnosticsEnabled": false,
+  "copilot.general.debugger.enableDiagnosticsHubProfilerAgent": false,
+  "copilot.general.debugger.enableRemoteRepositoryContext": false,
+  "copilot.general.debugger.enableDebugErrorCodeService": false,
+  "copilot.general.debugger.enableParallelStacksSummarizationService": false,
+  "copilot.featureFlags.debugger.useUnitTestDebuggerAgent": false,
+  "copilot.general.editor.enhanceNonChat": false,
+  "copilot.general.editor.enableOnTheFlyDocs": false,
+  "copilot.general.editor.enableFixWithCopilot": false,
+  "copilot.general.editor.enableGenerateDocumentationComment": false,
+  "copilot.general.editor.enableAdaptivePaste": false,
+  "copilot.general.javascript.enableJavaScriptProjectSystemCopilotFileNew": false,
+  "copilot.general.search.enableDidYouMeanCodeSearchSupport": false,
+  "copilot.general.sourceControl.enableLocalCodeReview": false
+}

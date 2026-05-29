@@ -1,0 +1,100 @@
+Answer my following questions
+
+1. real world use of  Form 3: Const Pointer to Const — const int* const ptr
+2. Does it works in any function, that value can not modify? fun(const int & cref)?
+3. What will be the address of r1 in the following code? How the memory managed?
+      const int & r1 = 42;
+
+4. then why not int &r2 = 42, not working? What mainly block it?
+5.  in the following code, how the variable value change happens?
+int x = 5;
+const int &r4 = x;
+x= 10;
+cout << r4; // 10?
+
+6. void print(const string & s); print("Hello world") // fine but does it work with print (string &s), if not why??? explain in details.
+7.  regarding 4. const member function, non-const function can not called on const object. then how it called? do we need two separate object [const and non-const object]? what is the real life use of const function? why  error for c.Accelerate()? explain
+----------------------------------------------
+
+8. if r1 declared globally, does temp remain in whole program or during whole execution?
+
+Lifetime Rule — Very Important:
+
+{
+    const int& r1 = 42;
+    // The hidden temporary's lifetime is EXTENDED to match r1's lifetime
+    // It lives as long as r1 lives — this is a special C++ rule
+    cout << r1;   // ✅ safe — temp is still alive
+}
+
+9. explain the both two in details -> dangling reference and const references. Explain it from memory reference/ management point of view.
+like __temp dies IMMEDIATELY (no const = no lifetime extension), why?
+
+// Without const — the temp would die immediately (dangling reference)
+// That's why int& r2 = 42 is illegal (see Q4)
+Summary: r1 gets a real stack address — the address of a compiler-generated hidden temporary. The temp's lifetime is extended to match r1. This is a special C++ rule only for const references.
+
+10. can we say the following changes okey?
+void Dashboard() const { ... } -> void Dashboard(const Car* this) {...}
+
+
+11. regarding One More Real Example — Dangling in Functions, both prints 99. Does it safe?
+int& getDangling() {
+
+    int local = 99;
+
+    return local;      // ❌ returning reference to local variable
+
+}
+
+// local is destroyed when function returns
+
+// The returned reference points to DEAD stack memory
+
+
+
+int main() {
+
+    int& r = getDangling();
+
+    cout << r;    // 💥 UNDEFINED BEHAVIOR — dangling reference
+
+                  // might print 99, might print garbage, might crash
+
+}
+
+12. if we remove r =500, it prints 333.
+but now it prints 500, how if memory freed?
+
+
+```
+int& getDangling() {
+	int local = 99;
+	return local;
+}
+
+void overwriteStack() {
+	int a = 111, b = 222, c = 333;   // these use the same stack space
+	cout << "inside overwriteStack" << endl;
+}
+
+int main() {
+	using namespace std;
+
+	int& r = getDangling();
+	overwriteStack();
+
+	r = 500;
+
+	cout << r << endl;
+}
+```
+
+
+13. if it works, is not the big problem?
+how to fix it? how to deal with it?
+
+You wrote to abandoned memory → it worked
+You read it back immediately  → it worked
+
+Bottom line: "Freed" stack memory is just abandoned RAM — no locks, no guards, no protection. You can still read and write it freely. r = 500 physically writes 500 to that address. Reading it back immediately gives 500. This is not safety — this is you scribbling on memory you don't own, and it only appears to work because nobody else scribbled on it between your write and read. Add one more function call between r = 500 and cout << r — the 500 vanishes.
