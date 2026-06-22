@@ -141,11 +141,13 @@
   <ItemGroup>
     <ClInclude Include="Car.h" />
     <ClInclude Include="Integer.h" />
+    <ClInclude Include="Operator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Car.cpp" />
     <ClCompile Include="Integer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Operator.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

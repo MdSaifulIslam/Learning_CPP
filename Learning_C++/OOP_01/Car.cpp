@@ -4,16 +4,24 @@
 int Car::totalCount = 0;
 
 using namespace std;
-Car::Car() {
-	totalCount ++;
+Car::Car():Car(0) {
 	cout << "Car()" << endl;
 }
-Car::Car(float fuel=0)
+
+Car::Car(float fuel=0):Car(fuel, 0)
 {
-	totalCount++;
-	cout << "Parameterized Car()" << endl;
-	this->fuel = fuel;
+	cout << "Parameterized Car(fuel)" << endl;
 }
+
+Car::Car(float fuel, int pass)
+{
+	cout << "Parameterized Car(fuel, passengers)" << endl;
+	totalCount++;
+	this->fuel = fuel;
+	this->passengers = pass;
+	this->speed = 0;
+}
+
 Car::~Car() {
 	totalCount --;
 	cout << "Ending ~Car()" << endl;

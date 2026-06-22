@@ -21,6 +21,9 @@
     <ClInclude Include="Integer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Operator.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Car.cpp">
@@ -30,6 +33,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Integer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Operator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -15,6 +15,17 @@ Interger::Interger(const Interger& obj)
 	m_pInt = new int(*obj.m_pInt);
 }
 
+Interger& Interger::operator=(const Interger& other)
+{
+	if (this == &other)
+		return *this;
+
+	delete m_pInt;
+	m_pInt = new int(*other.m_pInt);
+
+	return *this;
+}
+
 int Interger::getValue() const
 {
 	return *m_pInt;
