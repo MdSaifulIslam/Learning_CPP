@@ -1,12 +1,14 @@
 #pragma once
-class Interger {
+class Integer {
 	int* m_pInt;
 public:
-	Interger();
-	Interger(int value);
-	Interger(const Interger& obj);
-	Interger& operator=(const Interger& other);
+	Integer();
+	Integer(int value);
+	Integer(const Integer& obj);
+	Integer& operator=(const Integer& obj);
+	Integer(Integer&& obj);
+	Integer& operator=(Integer&& obj);
 	int getValue() const;
 	void setValue(int value);
-	~Interger();
+	~Integer();
 };

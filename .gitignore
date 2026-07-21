@@ -361,3 +361,50 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+# 2026-07-22
+### Executables and Build Outputs ###
+# Ignore compiled executables (like charCheck.exe)
+*.exe
+*.out
+*.app
+
+# Ignore object files and libraries
+*.o
+*.obj
+*.lib
+*.a
+*.dll
+*.so
+*.dylib
+
+### Visual Studio (MSVC) Specific ###
+# Ignore the hidden .vs folder (local configurations and cache)
+.vs/
+
+# Ignore build directories
+Debug/
+Release/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+
+# Ignore user-specific project files and database caches
+*.user
+*.suo
+*.db
+*.opendb
+*.vc.db
+*.tlog
+*.idb
+*.pdb
+*.ilk
+
+### Visual Studio Code Specific ###
+# It is generally recommended to ignore local workspace settings.
+# If you are collaborating and want to share tasks/launch configs, 
+# you can comment out the .vscode/ line and explicitly ignore specific files.
+.vscode/
+
+# If keeping the .vscode folder, at least ignore the C/C++ extension cache:
+# .vscode/ipch/
