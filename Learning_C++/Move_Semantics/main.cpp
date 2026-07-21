@@ -58,6 +58,10 @@ void Print(int&& x) {
 	cout << "Print(int&& x)" << endl;
 }
 
+void Print(Integer val) {
+	cout << val.getValue() << endl;
+}
+
 Integer Add(const Integer& a, const Integer& b) {
 	Integer temp;
 	temp.setValue(a.getValue() + b.getValue());
@@ -68,6 +72,57 @@ int main() {
 	Number n1{ 1 };
 	// copy constructor
 	auto n2{ n1 };
+
+	// invoke the move constructor
+	Integer b1{ 3 };
+	auto b2{static_cast<Integer&&>(b1) };
+	auto b3{ std::move(b1) };
+	auto b4{ std::move(b1) };
+	Print(std::move(b2));
+
+	/*
+	To set again the following change should od
+	main.cpp:
+		b2.setValue(5) will works, only if:
+		Integer.cpp:
+				void Integer::setValue(int value)
+				{
+					if(m_pInt == nullptr) m_pInt = new int{};
+					*m_pInt = value;
+				}
+	*/
+	b2.setValue(100);
+	Print(std::move(b2));
+
+
+	/*
+Integer b1{ 3 };
+// b1.m_pInt → [3] on heap
+
+auto b2{ static_cast<Integer&&>(b1) };
+// std::move equivalent — move constructor runs
+// b2.m_pInt → [3] on heap
+// b1.m_pInt → nullptr   ← b1 is now a ZOMBIE
+
+auto b3{ std::move(b1) };
+// b1.m_pInt is already nullptr
+// move constructor: b3.m_pInt = nullptr, b1.m_pInt = nullptr
+// b3 is also a zombie — but no crash YET (nullptr is valid to "hold")
+
+auto b4{ std::move(b1) };
+// same — b4.m_pInt = nullptr, still no crash yet
+
+Print(std::move(b2));
+// b2 still owns [3], this is fine
+
+// printf("%d\n", b2.getValue());  ← CRASH HERE
+	*/
+
+	//printf("%d\n", b3.getValue());
+
+	// it will crush here, b2 already moved, no reference exists except NULL:
+	// printf("%d\n", b2.getValue());
+	 
 	// copy assignment
 	n2 = n1;
 

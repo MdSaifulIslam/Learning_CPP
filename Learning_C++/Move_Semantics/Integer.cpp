@@ -18,6 +18,7 @@ Integer::Integer(int value)
 }
 
 // Copy constructor
+// we can remove, if we need to make it non-copyable
 Integer::Integer(const Integer& obj)
 {
 	cout << "Interger(const Interger& obj)" << endl;
@@ -25,6 +26,7 @@ Integer::Integer(const Integer& obj)
 }
 
 // Copy assignment
+// we can remove, if we need to make it non-copyable
 Integer& Integer::operator=(const Integer& obj)
 {
 	cout << "Interger::operator=(const Interger& other)" << endl;
@@ -65,6 +67,7 @@ int Integer::getValue() const
 
 void Integer::setValue(int value)
 {
+	if (m_pInt == nullptr) m_pInt = new int{};
 	*m_pInt = value;
 }
 
