@@ -1,5 +1,6 @@
 #include<iostream>
 #include "Integer.h"
+#include<memory>
 
 using namespace std;
 
@@ -43,8 +44,14 @@ public:
 	SmartInteger& operator=(const SmartInteger& obj) = delete;
 };
 
+void ProcessInteger(unique_ptr<Integer> ptr) {
+	cout << ptr->getValue() << endl;
+}
+
 void CreateInteger() {
-	SmartInteger p = new Integer;
+	//SmartInteger p = new Integer;
+	unique_ptr<Integer> p(new Integer);
+	//ProcessInteger(p); // cause error, copy constructor deleted by default;
 	p->setValue(4);
 	cout << (*p).getValue() << endl;
 }
