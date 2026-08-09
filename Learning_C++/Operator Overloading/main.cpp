@@ -18,22 +18,50 @@ istream& operator >> (istream& input, Integer& a) {
 	int x;
 
 	input >> x;
-	a.setValue(x);
+	*a.m_pInt = x;
 
 	return input;
 }
 
+class SmartInteger {
+private:
+	Integer* pInt;
+public:
+	SmartInteger(Integer* p = nullptr) {
+		pInt = p;
+	}
+	~SmartInteger() {
+		delete pInt;
+	}
+	Integer* operator->() {
+		return pInt;
+	}
+	Integer& operator*() {
+		return *pInt;
+	}
+	SmartInteger(const SmartInteger& obj) = delete;
+	SmartInteger& operator=(const SmartInteger& obj) = delete;
+};
+
+void CreateInteger() {
+	SmartInteger p = new Integer;
+	p->setValue(4);
+	cout << (*p).getValue() << endl;
+}
+
 int main() {
 
-	Integer a(1), b(3);
-	
-	cin >> a;
+	CreateInteger();
 
-	Integer sum1 = a + b;
-	Integer sum2 = a + 5;
-	Integer sum3 = 6 + a;
+	//Integer a(1), b(3);
+	//
+	//cin >> a;
 
-	cout << sum1 << sum2 << sum3 << endl;
+	//Integer sum1 = a + b;
+	//Integer sum2 = a + 5;
+	//Integer sum3 = 6 + a;
+
+	//cout << sum1 << sum2 << sum3 << endl;
 
 	return 0;
 }

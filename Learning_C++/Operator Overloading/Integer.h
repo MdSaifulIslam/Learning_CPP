@@ -1,4 +1,8 @@
 #pragma once
+#include <iostream>
+
+using namespace std;
+
 class Integer {
 	int* m_pInt;
 public:
@@ -16,4 +20,5 @@ public:
 	Integer& operator ++();
 	Integer operator ++(int)const;
 	bool operator ==(const Integer& obj) const;
+	friend istream& operator >> (istream& input, Integer& a);
 };

@@ -6,6 +6,7 @@ using namespace std;
 // Default constructor
 Integer::Integer()
 {
+	cout << "Integr()" << endl;
 	m_pInt = new int(0);
 }
 
@@ -67,6 +68,7 @@ void Integer::setValue(int value)
 
 Integer::~Integer()
 {
+	cout << "~Integr()" << endl;
 	delete m_pInt;
 }
 
