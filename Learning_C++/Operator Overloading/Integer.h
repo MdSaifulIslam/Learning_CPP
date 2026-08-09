@@ -21,4 +21,5 @@ public:
 	Integer operator ++(int)const;
 	bool operator ==(const Integer& obj) const;
 	friend istream& operator >> (istream& input, Integer& a);
+	explicit operator int();
 };

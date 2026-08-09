@@ -13,6 +13,7 @@ Integer::Integer()
 // Parameterized constructor
 Integer::Integer(int value)
 {
+	cout << "Integr(int value)" << endl;
 	m_pInt = new int(value);
 }
 
@@ -95,4 +96,9 @@ Integer Integer::operator++(int) const
 bool Integer::operator==(const Integer& obj) const
 {
 	return *m_pInt == obj.getValue(); // *m_pInt == *obj.m_pInt
+}
+
+Integer::operator int()
+{
+	return *m_pInt;
 }

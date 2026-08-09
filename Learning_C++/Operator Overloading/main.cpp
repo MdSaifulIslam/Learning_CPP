@@ -28,7 +28,7 @@ class SmartInteger {
 private:
 	Integer* pInt;
 public:
-	SmartInteger(Integer* p = nullptr) {
+	explicit SmartInteger(Integer* p = nullptr) {
 		pInt = p;
 	}
 	~SmartInteger() {
@@ -60,7 +60,12 @@ void CreateInteger() {
 
 int main() {
 
-	CreateInteger();
+	Integer a1{ 5 };
+	Integer a2 = 6;
+	int x = static_cast<int>(a1);
+	//int result = a1 * 77;
+
+	//CreateInteger();
 
 	//Integer a(1), b(3);
 	//
