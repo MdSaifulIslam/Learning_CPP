@@ -44,14 +44,16 @@ public:
 	SmartInteger& operator=(const SmartInteger& obj) = delete;
 };
 
-void ProcessInteger(unique_ptr<Integer> ptr) {
+void ProcessInteger(shared_ptr<Integer> ptr) {
 	cout << ptr->getValue() << endl;
 }
 
 void CreateInteger() {
 	//SmartInteger p = new Integer;
-	unique_ptr<Integer> p(new Integer);
+	shared_ptr<Integer> p(new Integer);
 	//ProcessInteger(p); // cause error, copy constructor deleted by default;
+	p->setValue(5);
+	ProcessInteger(p); // no error
 	p->setValue(4);
 	cout << (*p).getValue() << endl;
 }
