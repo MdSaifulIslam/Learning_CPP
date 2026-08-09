@@ -58,7 +58,29 @@ void CreateInteger() {
 	cout << (*p).getValue() << endl;
 }
 
+class Product {
+	Integer p_ID;
+public:
+	Product(const Integer& id) :p_ID{id} {
+		cout << "Product(const Integer&)" << endl;
+	}
+	~Product() {
+		cout << "~Product()" << endl;
+	}
+	operator Integer() {
+		return p_ID;
+	}
+};
+
 int main() {
+
+	Product p{ 5 };
+	Integer id = p;
+	Integer id2{ 5 };
+
+	if (id2 == p) {
+		cout << "matches" << endl;
+	}
 
 	Integer a1{ 5 };
 	Integer a2 = 6;
