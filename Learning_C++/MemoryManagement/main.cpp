@@ -15,26 +15,34 @@ Integer* GetPointer(int value) {
 	return p;
 }
 
+void Store(unique_ptr<Integer> &p) {
+	cout << "Storing value in a file: " << p->getValue() << endl;
+}
+
 void Operate(int value) {
-	Integer* p = GetPointer(value);
+	//Integer* p = GetPointer(value);
+	unique_ptr<Integer> p{ GetPointer(value) };
 	if (p == nullptr) {
-		p = new Integer(value);
+		p.reset(new Integer{ value });
 	}
 
 	p->setValue(100);
-	Display(p);
-	delete p;
-	p = nullptr;
+	Display(p.get());
+	//delete p;
+	//p = nullptr;
 
-	p = new Integer{};
+	//p = new Integer{};
+	p.reset(new Integer{});
 	*p = __LINE__;
-	Display(p);
-	delete p;
+	Display(p.get());
+	Store(p);
+	*p = 200;
+	//delete p;
 }
 
 int main() {
 
-	Operate(105.66);
+	Operate(105);
 
 	return 0;
 }
