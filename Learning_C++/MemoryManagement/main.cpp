@@ -70,35 +70,38 @@ public:
 };
 
 class Employee {
-	unique_ptr<Project> e_pName{};
+	shared_ptr<Project> e_pName{};
 public:
-	void SetProject(unique_ptr<Project>& prj) {
-		e_pName = move(prj);
+	void SetProject(const shared_ptr<Project>& prj) {
+		e_pName = prj;
 	}
-	const unique_ptr<Project>& Getproject()const {
+	const shared_ptr<Project>& Getproject()const {
 		return e_pName;
 	}
 };
 
-void ShowInfo(unique_ptr<Employee>& emp) {
-	cout << "unique_ptr<Employee> project details: ";
+void ShowInfo(shared_ptr<Employee>& emp) {
+	cout << "Employee project details: ";
 	emp->Getproject()->ShowProjectDetails();
 }
 
 int main() {
 
 	//Operate(105);
-	unique_ptr<Project> prj{ new Project{} };
+	shared_ptr<Project> prj{ new Project{} };
 	prj->SetName("Video decoder");
 
-	unique_ptr<Employee> e1{ new Employee{} };
+	shared_ptr<Employee> e1{ new Employee{} };
 	e1->SetProject(prj);
 
-	unique_ptr<Employee> e2{ new Employee{} };
+	shared_ptr<Employee> e2{ new Employee{} };
 	e2->SetProject(prj);
 
-	unique_ptr<Employee> e3{ new Employee{} };
+	shared_ptr<Employee> e3{ new Employee{} };
 	e3->SetProject(prj);
+	e3 = nullptr; //ref count decreases by 1, also work: e3.reset();
+
+	cout << "project ref count: " << prj.use_count() << endl;
 
 	ShowInfo(e1);
 	ShowInfo(e2);
