@@ -58,9 +58,57 @@ void Operate(int value) {
 	//delete p;
 }
 
+class Project {
+	string p_Name;
+public:
+	void SetName(const string& name) {
+		p_Name = name;
+	}
+	void ShowProjectDetails()const {
+		cout << "[Project Name]: " << p_Name << endl;
+	}
+};
+
+class Employee {
+	Project *e_pName{};
+public:
+	void SetProject(Project* prj) {
+		e_pName = prj;
+	}
+	const Project* Getproject()const {
+		return e_pName;
+	}
+};
+
+void ShowInfo(Employee* emp) {
+	cout << "Employee project details: ";
+	emp->Getproject()->ShowProjectDetails();
+}
+
 int main() {
 
-	Operate(105);
+	//Operate(105);
+	Project* prj = new Project{};
+	prj->SetName("Video decoder");
+
+	Employee* e1 = new Employee{};
+	e1->SetProject(prj);
+
+	Employee* e2 = new Employee{};
+	e2->SetProject(prj);
+
+	Employee* e3 = new Employee{};
+	e3->SetProject(prj);
+
+	ShowInfo(e1);
+	ShowInfo(e2);
+
+	prj->ShowProjectDetails();
+
+	delete prj;
+	delete e1;
+	delete e2;
+	delete e3;
 
 	return 0;
 }
