@@ -70,45 +70,40 @@ public:
 };
 
 class Employee {
-	Project *e_pName{};
+	unique_ptr<Project> e_pName{};
 public:
-	void SetProject(Project* prj) {
-		e_pName = prj;
+	void SetProject(unique_ptr<Project>& prj) {
+		e_pName = move(prj);
 	}
-	const Project* Getproject()const {
+	const unique_ptr<Project>& Getproject()const {
 		return e_pName;
 	}
 };
 
-void ShowInfo(Employee* emp) {
-	cout << "Employee project details: ";
+void ShowInfo(unique_ptr<Employee>& emp) {
+	cout << "unique_ptr<Employee> project details: ";
 	emp->Getproject()->ShowProjectDetails();
 }
 
 int main() {
 
 	//Operate(105);
-	Project* prj = new Project{};
+	unique_ptr<Project> prj{ new Project{} };
 	prj->SetName("Video decoder");
 
-	Employee* e1 = new Employee{};
+	unique_ptr<Employee> e1{ new Employee{} };
 	e1->SetProject(prj);
 
-	Employee* e2 = new Employee{};
+	unique_ptr<Employee> e2{ new Employee{} };
 	e2->SetProject(prj);
 
-	Employee* e3 = new Employee{};
+	unique_ptr<Employee> e3{ new Employee{} };
 	e3->SetProject(prj);
 
 	ShowInfo(e1);
 	ShowInfo(e2);
 
 	prj->ShowProjectDetails();
-
-	delete prj;
-	delete e1;
-	delete e2;
-	delete e3;
 
 	return 0;
 }
