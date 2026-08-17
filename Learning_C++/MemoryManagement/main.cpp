@@ -15,8 +15,25 @@ Integer* GetPointer(int value) {
 	return p;
 }
 
+void copyData(unique_ptr<Integer> &ptr) { // NO '&' HERE!
+	cout << "Copying value in a file: " << ptr->getValue() << endl;
+}
+
 void Store(unique_ptr<Integer> &p) {
 	cout << "Storing value in a file: " << p->getValue() << endl;
+	p->setValue(77);
+	*p = 700;
+	/*
+	What the compiler actually generates for *p = 700:
+	Integer temp(700);        // ① implicit construction — "Integr(int value)"
+	*p = temp;                // ② copy assignment operator runs
+	temp.~Integer();          // ③ temp destroyed — "~Integr()"
+
+	This is the reason, there is extra initialization like following:
+	Integr(int value)
+	~Integr()
+	*/
+	copyData(p);
 }
 
 void Operate(int value) {
@@ -37,6 +54,7 @@ void Operate(int value) {
 	Display(p.get());
 	Store(p);
 	*p = 200;
+	Display(p.get());
 	//delete p;
 }
 
