@@ -9,6 +9,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+*.slnx
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -410,3 +411,4 @@ x86/
 
 # If keeping the .vscode folder, at least ignore the C/C++ extension cache:
 # .vscode/ipch/
+*.slnx
