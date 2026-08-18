@@ -114,7 +114,14 @@ public:
 
 class Player {
 public:
-	shared_ptr<Team> p_Team;
+	weak_ptr<Team> p_Team;
+	/*
+	* console afetr week_ptr:
+	Team created
+	Player class created
+	Team Destroyed
+	Player class Destroyed
+	*/
 	Player() { cout << "Player class created" << endl; }
 	~Player() { cout << "Player class Destroyed" << endl; }
 };
