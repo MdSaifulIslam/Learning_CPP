@@ -126,13 +126,33 @@ public:
 	~Player() { cout << "Player class Destroyed" << endl; }
 };
 
+// custom deleter
+
+struct Free {
+	void operator()(int* p) {
+		free(p);
+		cout << "Pointer freed" << endl;
+	}
+};
+
 int main() {
 
-	shared_ptr<Team> t{ new Team{} };
-	shared_ptr<Player> p{ new Player{} };
+	unique_ptr<int, Free> p{ (int*)malloc(4), Free{} }; // use of custom deleter
 
-	t->t_Player = p;
-	p->p_Team = t;
+	*p = 100;
+	cout << *p << endl;
+
+	/*
+	* concole:
+	100
+	Pointer freed
+	*/
+
+	//shared_ptr<Team> t{ new Team{} };
+	//shared_ptr<Player> p{ new Player{} };
+
+	//t->t_Player = p;
+	//p->p_Team = t;
 
 	/*
 	*
