@@ -1,5 +1,7 @@
 #include<iostream>
 #include<sstream>
+#include <cassert>
+#include<initializer_list>
 
 using namespace std;
 
@@ -43,35 +45,66 @@ constexpr int Add(int a, int b) {
 	return a + b;
 }
 
+class Bag {
+	int arr[10];
+	int m_size{};
+public:
+	Bag(initializer_list<int> vals) {
+		for (auto x : vals) {
+			Add(x);
+		}
+	}
+
+	void Add(int val) {
+		assert(m_size < 10);
+		arr[m_size++] = val;
+	}
+	void Remove() { --m_size; }
+	int& operator [](int index) { return arr[index]; } 
+	/*
+	//  reference to actual element — now it CAN modify by index also
+	b[2] = 99;    // now works — directly modifies arr[2] inside Bag
+	*/
+	int getSize() const { return m_size; }
+};
+
 int main() {
 
-	constexpr int a = 9;
+	initializer_list<int> data = { 1, 2, 3, 4 };
+	auto vals = { 1, 2, 3, 4, 5 };
+	Bag b{ 2, 3, 4, 5 };
+	b[1] = 44;
+	for (int i = 0; i < b.getSize(); ++i) {
+		cout << b[i] << endl; //b.operator[](i)   // what compiler translates it to — identical meaning
+	}
 
-	/*
-	const vs constexpr:
-	1. Initialization of a const variable can be deffered until runtime
-	2. constexpr variable must be initialized at compile time
-	3. all constexpr variables are const, but not the other way round
-	4. use const to indicate the value can not be modified 
-	5. use constexpr to create expressions that can be evaluated at compile time
-	
-	*/
+	//constexpr int a = 9;
 
-	int x;
-	std::cin >> x; // User types a number at runtime
+	///*
+	//const vs constexpr:
+	//1. Initialization of a const variable can be deffered until runtime
+	//2. constexpr variable must be initialized at compile time
+	//3. all constexpr variables are const, but not the other way round
+	//4. use const to indicate the value can not be modified 
+	//5. use constexpr to create expressions that can be evaluated at compile time
+	//
+	//*/
 
-	const int runtime_const = x;     // VALID: Value won't change after this line.
-	//constexpr int compile_const = x; // ERROR: 'x' is not known at compile time.
+	//int x;
+	//std::cin >> x; // User types a number at runtime
 
-	// Behaves as a normal function
-	int b = getNumber();
+	//const int runtime_const = x;     // VALID: Value won't change after this line.
+	////constexpr int compile_const = x; // ERROR: 'x' is not known at compile time.
 
-	// Behaves as a constexpr function
-	constexpr int c = getNumber();
+	//// Behaves as a normal function
+	//int b = getNumber();
 
-	constexpr int l = Add(2, 5); // error for Add(c, 5), it will not wait for runtime. Executed in compile time
-	int arr1[l];
-	//int arr2[b]; // error as b is not const or constexpr;
+	//// Behaves as a constexpr function
+	//constexpr int c = getNumber();
+
+	//constexpr int l = Add(2, 5); // error for Add(c, 5), it will not wait for runtime. Executed in compile time
+	//int arr1[l];
+	////int arr2[b]; // error as b is not const or constexpr;
 
 	//Distance dist1{ 199.99 };
 	//cout << dist1.getKm() << " KM" << endl;
