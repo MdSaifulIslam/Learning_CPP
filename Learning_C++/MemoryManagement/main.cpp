@@ -85,28 +85,55 @@ void ShowInfo(shared_ptr<Employee>& emp) {
 	emp->Getproject()->ShowProjectDetails();
 }
 
+class Printer {
+	shared_ptr<int> m_pValue;
+public:
+	void setValue(shared_ptr<int> p) {
+		m_pValue = p;
+	}
+	void Print() const {
+		cout << "Ref count: " << m_pValue.use_count() << endl;
+		cout << "Value is: " << *m_pValue << endl;
+		*m_pValue = 9;
+	}
+};
+
 int main() {
 
-	//Operate(105);
-	shared_ptr<Project> prj{ new Project{} };
-	prj->SetName("Video decoder");
+	Printer prn;
+	int num{};
+	cin >> num;
+	shared_ptr<int> p{ new int{num} };
 
-	shared_ptr<Employee> e1{ new Employee{} };
-	e1->SetProject(prj);
+	prn.setValue(p);
 
-	shared_ptr<Employee> e2{ new Employee{} };
-	e2->SetProject(prj);
+	if (*p > 10) {
+		p = nullptr;
+	}
+	prn.Print();
+	cout << *p << endl;
+	prn.Print();
 
-	shared_ptr<Employee> e3{ new Employee{} };
-	e3->SetProject(prj);
-	e3 = nullptr; //ref count decreases by 1, also work: e3.reset();
+	////Operate(105);
+	//shared_ptr<Project> prj{ new Project{} };
+	//prj->SetName("Video decoder");
 
-	cout << "project ref count: " << prj.use_count() << endl;
+	//shared_ptr<Employee> e1{ new Employee{} };
+	//e1->SetProject(prj);
 
-	ShowInfo(e1);
-	ShowInfo(e2);
+	//shared_ptr<Employee> e2{ new Employee{} };
+	//e2->SetProject(prj);
 
-	prj->ShowProjectDetails();
+	//shared_ptr<Employee> e3{ new Employee{} };
+	//e3->SetProject(prj);
+	//e3 = nullptr; //ref count decreases by 1, also work: e3.reset();
+
+	//cout << "project ref count: " << prj.use_count() << endl;
+
+	//ShowInfo(e1);
+	//ShowInfo(e2);
+
+	//prj->ShowProjectDetails();
 
 	return 0;
 }
