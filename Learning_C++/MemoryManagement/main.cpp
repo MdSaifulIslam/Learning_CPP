@@ -86,15 +86,20 @@ void ShowInfo(shared_ptr<Employee>& emp) {
 }
 
 class Printer {
-	shared_ptr<int> m_pValue;
+	weak_ptr<int> m_pValue;
 public:
-	void setValue(shared_ptr<int> p) {
+	void setValue(weak_ptr<int> p) {
 		m_pValue = p;
 	}
-	void Print() const {
+	void Print() {
 		cout << "Ref count: " << m_pValue.use_count() << endl;
-		cout << "Value is: " << *m_pValue << endl;
-		*m_pValue = 9;
+		if (m_pValue.expired()) {
+			cout << "Resource not available";
+			return;
+		}
+		auto sp = m_pValue.lock();
+		cout << "Value is: " << *sp << endl;
+		cout << "Ref count: " << sp.use_count() << endl;
 	}
 };
 
@@ -110,8 +115,6 @@ int main() {
 	if (*p > 10) {
 		p = nullptr;
 	}
-	prn.Print();
-	cout << *p << endl;
 	prn.Print();
 
 	////Operate(105);
