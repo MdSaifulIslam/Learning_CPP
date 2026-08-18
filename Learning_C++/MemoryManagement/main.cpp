@@ -103,19 +103,66 @@ public:
 	}
 };
 
+class Player; // Forward Declaration
+
+class Team {
+public:
+	shared_ptr<Player> t_Player;
+	Team() { cout << "Team created" << endl; }
+	~Team() { cout << "Team Destroyed" << endl; }
+};
+
+class Player {
+public:
+	shared_ptr<Team> p_Team;
+	Player() { cout << "Player class created" << endl; }
+	~Player() { cout << "Player class Destroyed" << endl; }
+};
+
 int main() {
 
-	Printer prn;
-	int num{};
-	cin >> num;
-	shared_ptr<int> p{ new int{num} };
+	shared_ptr<Team> t{ new Team{} };
+	shared_ptr<Player> p{ new Player{} };
 
-	prn.setValue(p);
+	t->t_Player = p;
+	p->p_Team = t;
 
-	if (*p > 10) {
-		p = nullptr;
-	}
-	prn.Print();
+	/*
+	*
+	console:
+	Team created
+	Player class created
+
+	C :\Users\islam\Documents\Programming\c& c++\Learning_C++\Debug\MemoryManagement.exe(process 16096) exited with code 0 (0x0).
+	The result is a permanent memory leak:
+
+	THE STACK                             THE HEAP
+----------------------       ---------------------------------------
+ (main is finished)
+							 [ Team Control Block ]      [ Team Object ]
+							 [ Strong Ref: 1      ] ---> [ myPlayer  --]--\
+							 [ Points to Data     ]                    |  |
+									   ^                               |  |
+									   |                               |  |
+									   \-------------------------------/  |
+																		  |
+							 [ Player Control Blk ]      [ Player Obj]    |
+							 [ Strong Ref: 1      ] ---> [ myTeam  --]----/
+							 [ Points to Data     ]
+
+	*/
+
+	//Printer prn;
+	//int num{};
+	//cin >> num;
+	//shared_ptr<int> p{ new int{num} };
+
+	//prn.setValue(p);
+
+	//if (*p > 10) {
+	//	p = nullptr;
+	//}
+	//prn.Print();
 
 	////Operate(105);
 	//shared_ptr<Project> prj{ new Project{} };
