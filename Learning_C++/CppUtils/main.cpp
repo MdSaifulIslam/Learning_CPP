@@ -35,16 +35,52 @@ Distance operator"" _metres(long double val) {
 	return Distance(val / 1000);
 }
 
+constexpr int getNumber() {
+	return 42;
+}
+
+constexpr int Add(int a, int b) {
+	return a + b;
+}
+
 int main() {
 
-	Distance dist1{ 199.99 };
-	cout << dist1.getKm() << " KM" << endl;
+	constexpr int a = 9;
 
-	Distance dist2{ 100.0_mi };
-	cout << dist2.getKm() << " KM" << endl;
+	/*
+	const vs constexpr:
+	1. Initialization of a const variable can be deffered until runtime
+	2. constexpr variable must be initialized at compile time
+	3. all constexpr variables are const, but not the other way round
+	4. use const to indicate the value can not be modified 
+	5. use constexpr to create expressions that can be evaluated at compile time
+	
+	*/
 
-	Distance dist3{ 1999.0_metres };
-	cout << dist3.getKm() << " KM" << endl;
+	int x;
+	std::cin >> x; // User types a number at runtime
+
+	const int runtime_const = x;     // VALID: Value won't change after this line.
+	//constexpr int compile_const = x; // ERROR: 'x' is not known at compile time.
+
+	// Behaves as a normal function
+	int b = getNumber();
+
+	// Behaves as a constexpr function
+	constexpr int c = getNumber();
+
+	constexpr int l = Add(2, 5); // error for Add(c, 5), it will not wait for runtime. Executed in compile time
+	int arr1[l];
+	//int arr2[b]; // error as b is not const or constexpr;
+
+	//Distance dist1{ 199.99 };
+	//cout << dist1.getKm() << " KM" << endl;
+
+	//Distance dist2{ 100.0_mi };
+	//cout << dist2.getKm() << " KM" << endl;
+
+	//Distance dist3{ 1999.0_metres };
+	//cout << dist3.getKm() << " KM" << endl;
 
 	//string s = "hello";
 	//s[0] = 'W';
