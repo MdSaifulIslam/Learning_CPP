@@ -1,24 +1,50 @@
 #pragma once
 #include <iostream>
+#include<memory>
+#include<vector>
 
 using namespace std;
 
+class Test {
+public:
+	Test() { cout << "Test() initiated" << endl; }
+	~Test() { cout << "~Test() called" << endl; }
+};
+
 int processRecords(int count) {
+
+	// as local variable the ~Test() called
+	//Test t; 
+	
+	//Test() initiated
+	//bad array new length, ~Test() not called.
+	//Test* t = new Test(); 
+
+	unique_ptr<Test> t{ new Test() };
 
 	if (count < 10) {
 		throw out_of_range("Count should be greater than 10");
 	}
 	
-	int* p = new int[count]; // through bad_alloc exception
+	//int* p = new int[count]; // through bad_alloc exception
 
-	int* pArr = (int*)malloc(count * sizeof(int));
-	if (pArr == nullptr) {
-		throw runtime_error("Failed to allocate Memory.");
-	}
+	//int* pArr = (int*)malloc(count * sizeof(int));
+	//if (pArr == nullptr) {
+	//	throw runtime_error("Failed to allocate Memory.");
+	//}
+
+	vector<int> p;
+	p.reserve(count);
+
+	vector<int> pArr;
+	p.reserve(count);
+
 	for (int i = 0; i < count; ++i) {
-		pArr[i] = i;
+		pArr.push_back(i);
 	}
-	free(pArr);
+
+	//free(pArr);
+	//delete p;
 
 	return 0;
 }
