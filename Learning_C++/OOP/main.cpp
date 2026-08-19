@@ -8,11 +8,25 @@ int main() {
 	Account* acc = new Saivings("bonb", 10000, 0.05);
 	delete acc;
 
-	Checking c_Aacc("Bob", 100);
-	Transaction(&c_Aacc);
+	cout << "\n\n\n";
 
-	Saivings s_Acc("Bob", 100, 0.5f);
-	Transaction(&s_Acc);
+	Saivings s_Aac("Bob", 100, 0.01);
+	try {
+		Transaction(s_Aac);
+	}
+	catch(exception &ex){
+		cout << "Excwption: " << ex.what() << endl;
+	}
+
+	cout << "\n\n\n";
+
+	Checking s_Acc2("Bob", 100, 120);
+	try {
+		Transaction(s_Acc2);
+	}
+	catch (exception& ex) {
+		cout << "Excwption: " << ex.what() << endl;
+	}
 
 	//cout << "Account No: " << acc.getAccNo() << " & Balance: " << acc.getBalance() << endl;
 
