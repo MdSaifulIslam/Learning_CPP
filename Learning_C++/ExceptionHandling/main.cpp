@@ -2,6 +2,7 @@
 #include <iostream>
 #include<memory>
 #include<vector>
+#include<random>
 
 using namespace std;
 
@@ -20,7 +21,7 @@ int processRecords(int count) {
 	//bad array new length, ~Test() not called.
 	//Test* t = new Test(); 
 
-	unique_ptr<Test> t{ new Test() };
+	//unique_ptr<Test> t{ new Test() };
 
 	if (count < 10) {
 		throw out_of_range("Count should be greater than 10");
@@ -43,6 +44,28 @@ int processRecords(int count) {
 		pArr.push_back(i);
 	}
 
+	default_random_engine eng;
+	bernoulli_distribution b_dist;
+	int error_count{0};
+	for (int i = 0; i < count; ++i) {
+		try {
+			cout << "Processing record # : " << i;
+			if (!b_dist(eng)) {
+				++error_count;
+				throw runtime_error("Failed to process record ... -===--");
+			}
+			cout << endl;
+		}
+		catch (runtime_error& ex) {
+			cout << "[ERROR: " << ex.what() << endl;
+			if (error_count > 4) {
+				runtime_error err("Too many errors. Aborting operation ...");
+					ex = err;
+					throw;
+			}
+		}
+	}
+
 	//free(pArr);
 	//delete p;
 
@@ -52,8 +75,8 @@ int processRecords(int count) {
 int main() {
 
 	try {
-		processRecords(numeric_limits<int>::max());
-		//processRecords(5);
+		//processRecords(numeric_limits<int>::max());
+		processRecords(50);
 	}
 	catch(runtime_error &ex){
 		cout << ex.what() << endl;
