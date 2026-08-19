@@ -19,26 +19,29 @@ public:
 };
 
 class Test {
-	A* pA;
+	unique_ptr<A> pA{};
 	B b{};
-	int* pInt{};
-	char* pStr;
-	int* pArr{};
+	unique_ptr<int> pInt{};
+	string pStr{};
+	vector<int> pArr{};
 public:
 	Test() { 
 		cout << "Test() initiated" << endl; 
-		pA = new A();
-		pInt = new int;
+		pA.reset(new A());
+		//pInt = new int;
 		throw runtime_error("Failed to initialize");
-		pStr = new char[1000];
-		pArr = new int[1000];
+		//pStr = new char[1000];
+		//pArr = new int[1000];
 	}
 	~Test() { 
-		cout << "~Test() called" << endl; 
-		delete pA;
-		delete pInt;
-		delete[]pStr;
-		delete[]pArr;
+		cout << "~Test() called" << endl;
+		//any exception in the destructor will terminate the program. 
+		// it should be handeld within the destructor scope
+		//throw runtime_error("Failed to initialize"); 
+		//delete pA;
+		//delete pInt;
+		//delete[]pStr;
+		//delete[]pArr;
 	}
 };
 
