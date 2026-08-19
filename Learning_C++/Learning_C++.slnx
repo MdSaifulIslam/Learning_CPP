@@ -7,6 +7,7 @@
   <Project Path="CppUtils/CppUtils.vcxproj" Id="00bd5ae5-5536-4103-adbf-f8a292c2dbbc" />
   <Project Path="MemoryManagement/MemoryManagement.vcxproj" Id="ee278416-8e1b-4b51-be2c-6e522daa4771" />
   <Project Path="Move_Semantics/Move_Semantics.vcxproj" Id="72bb50de-e484-4333-9a4f-739e4a161520" />
+  <Project Path="OOP/OOP.vcxproj" Id="3af3fbd5-7c43-4214-a0d9-c7d44eeb7b10" />
   <Project Path="OOP_01/OOP_01.vcxproj" Id="6527b43b-1c4f-4b49-a587-31435b1fb0fb" />
   <Project Path="Operator Overloading/Operator Overloading.vcxproj" Id="e7b0eba9-0012-47a9-8330-ae4f8c0ab0c2" />
 </Solution>
