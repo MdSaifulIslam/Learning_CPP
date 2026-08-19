@@ -20,9 +20,9 @@ public:
 	float getBalance()const;
 	int getAccNo()const;
 
-	void AccumulateProfit();
-	void Withdraw(float amount);
-	void Deposit(float amount);
-	float getProfitRate()const;
+	virtual void AccumulateProfit();
+	virtual void Withdraw(float amount);
+	virtual void Deposit(float amount);
+	virtual float getProfitRate()const;
 };
 

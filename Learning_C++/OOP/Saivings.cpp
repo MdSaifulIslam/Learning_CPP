@@ -8,10 +8,11 @@ Saivings::~Saivings()
 {
 }
 
-float Saivings::getProfitRate() const{
+float Saivings::getProfitRate() const {
 	return m_Rate;
 }
 
 void Saivings::AccumulateProfit() {
 	m_Balance += (m_Balance * m_Rate);
+	cout << "Updated Balance: " << m_Balance << endl;
 }

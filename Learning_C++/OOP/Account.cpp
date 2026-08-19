@@ -41,9 +41,9 @@ void Account::Withdraw(float amount) {
 
 void Account::Deposit(float amount) {
 	m_Balance += amount;
+	cout << "Updated Balance: " << m_Balance << endl;
 }
 
-float Account::getProfitRate() const
-{
+float Account::getProfitRate() const {
 	return 0.0f;
 }

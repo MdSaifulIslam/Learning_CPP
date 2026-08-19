@@ -1,14 +1,20 @@
 //#include "Account.h"
 #include "Saivings.h"
 #include "Checking.h"
+#include "Transaction.h"
 
 int main() {
 
-	Checking acc("Bob", 1000);
-	cout << "Account No: " << acc.getAccNo() << " & Balance: " << acc.getBalance() << endl;
+	Checking c_Aacc("Bob", 100);
+	Transaction(&c_Aacc);
 
-	acc.Withdraw(800);
-	cout << "Account No: " << acc.getAccNo() << " & Balance: " << acc.getBalance() << endl;
+	Saivings s_Acc("Bob", 100, 0.5f);
+	Transaction(&s_Acc);
+
+	//cout << "Account No: " << acc.getAccNo() << " & Balance: " << acc.getBalance() << endl;
+
+	//acc.Withdraw(800);
+	//cout << "Account No: " << acc.getAccNo() << " & Balance: " << acc.getBalance() << endl;
 
 	//Saivings savAcc("bob-save", 5000, 5);
 
