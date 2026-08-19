@@ -6,10 +6,40 @@
 
 using namespace std;
 
-class Test {
+class A {
 public:
-	Test() { cout << "Test() initiated" << endl; }
-	~Test() { cout << "~Test() called" << endl; }
+	A() { cout << "A() initiated" << endl; }
+	~A() { cout << "~A() called" << endl; }
+};
+
+class B {
+public:
+	B() { cout << "B() initiated" << endl; }
+	~B() { cout << "~B() called" << endl; }
+};
+
+class Test {
+	A* pA;
+	B b{};
+	int* pInt{};
+	char* pStr;
+	int* pArr{};
+public:
+	Test() { 
+		cout << "Test() initiated" << endl; 
+		pA = new A();
+		pInt = new int;
+		throw runtime_error("Failed to initialize");
+		pStr = new char[1000];
+		pArr = new int[1000];
+	}
+	~Test() { 
+		cout << "~Test() called" << endl; 
+		delete pA;
+		delete pInt;
+		delete[]pStr;
+		delete[]pArr;
+	}
 };
 
 int processRecords(int count) {
@@ -75,25 +105,11 @@ int processRecords(int count) {
 int main() {
 
 	try {
-		//processRecords(numeric_limits<int>::max());
-		processRecords(50);
+		Test t;
 	}
 	catch(runtime_error &ex){
 		cout << ex.what() << endl;
 	}
-	catch (out_of_range &ex) {
-		cout << ex.what() << endl;
-	}
-	catch (bad_alloc &ex) {
-		cout << ex.what() << endl;
-	}
-	catch (exception &ex) {
-		cout << ex.what() << endl;
-	}
-	catch (...) {
-		cout << "Exception" << endl;
-	}
-
 
 	return 0;
 }
