@@ -14,7 +14,18 @@ protected:
 
 public:
 	Account(const string& name, float balance);
-	~Account();
+	virtual ~Account();
+
+	/*
+	Any class that has virtual functions
+	→ MUST have a virtual destructor
+	
+	If you ever write:  Base* ptr = new Derived{};
+                    delete ptr;
+	→ Base destructor MUST be virtual
+	otherwise Derived destructor is silently skipped
+	
+	*/
 
 	const string getName()const;
 	float getBalance()const;

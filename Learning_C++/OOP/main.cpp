@@ -5,6 +5,9 @@
 
 int main() {
 
+	Account* acc = new Saivings("bonb", 10000, 0.05);
+	delete acc;
+
 	Checking c_Aacc("Bob", 100);
 	Transaction(&c_Aacc);
 
