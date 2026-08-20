@@ -62,10 +62,55 @@ void Read() {
 	input.close();
 }
 
+void binaryIO() {
+	ofstream textstream{ "data" };
+	textstream << 123456;
+
+	ofstream binstream{ "binary", ios::binary | ios::out };
+	int num{ 123456 };
+
+	binstream.write((const char*)&num, sizeof(num));
+	binstream.close();
+
+	num = 0;
+	ifstream bininput{ "binary", ios::binary | ios::in };
+
+	bininput.read((char*)&num, sizeof(num));
+	cout << num << endl;
+
+	bininput.close();
+}
+
+struct Record
+{
+	int id;
+	char name[10];
+};
+
+void writeRecord(Record* p) {
+	ofstream binstream{ "record", ios::binary | ios::out };
+	binstream.write((const char*)p, sizeof(Record));
+}
+Record getReord() {
+	ifstream binread{ "record", ios::binary | ios::in };
+	Record r;
+	binread.read((char*)&r, sizeof(Record));
+	return r;
+}
+
 int main() {
 
-	Write();
-	Read();
+	Record r;
+	r.id = 100001;
+	strcpy_s(r.name, 10, "Jamal");
+
+	writeRecord(&r);
+	Record rr = getReord();
+	cout << rr.id << " : " << rr.name << endl;
+
+	//binaryIO();
+	//Write();
+	//Read();
 
 	return 0;
 }
