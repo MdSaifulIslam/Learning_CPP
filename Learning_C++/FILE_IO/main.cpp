@@ -12,6 +12,8 @@ void Write() {
 	out << "Total line is: " << endl;
 	out << 3 << endl;
 	out << 3.1416f << endl;
+
+	out.close();
 }
 
 void Read() {
@@ -27,8 +29,37 @@ void Read() {
 
 	input >> line_number;
 	input >> PI;
+	//input >> PI;
 
-	cout << messages[0] << " " << messages[1] << " " << messages[2] << " " << messages[3] << " " << line_number << " " << PI << endl;
+	if (input.fail()) { cout << "Could not read" << endl; }
+
+	if (input.good()) {
+		cout << "IO successful" << endl;
+	}
+	else
+	{
+		cout << "Some IO failed" << endl;
+	}
+
+	input.close();
+
+	cout << messages[0] << " " 
+		<< messages[1] << " " 
+		<< messages[2] << " " 
+		<< messages[3] << " " 
+		<< line_number << " " 
+		<< PI << endl;
+
+	input.open("data.txt");
+	if (!input.is_open()) { cout << "Could not open file" << endl; return; }
+	
+	string line;
+	cout << "\nPrint using loop ... " << endl;
+
+	while (getline(input, line)) {
+		cout << line << endl;
+	}
+	input.close();
 }
 
 int main() {
