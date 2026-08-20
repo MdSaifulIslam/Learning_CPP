@@ -12,4 +12,5 @@
   <Project Path="OOP/OOP.vcxproj" Id="3af3fbd5-7c43-4214-a0d9-c7d44eeb7b10" />
   <Project Path="OOP_01/OOP_01.vcxproj" Id="6527b43b-1c4f-4b49-a587-31435b1fb0fb" />
   <Project Path="Operator Overloading/Operator Overloading.vcxproj" Id="e7b0eba9-0012-47a9-8330-ae4f8c0ab0c2" />
+  <Project Path="Temlates/Temlates.vcxproj" Id="fb96e167-d99f-4e23-a1c6-3678e12f934c" />
 </Solution>
