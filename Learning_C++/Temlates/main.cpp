@@ -5,7 +5,6 @@ using namespace std;
 
 template<typename T, typename S>
 typename conditional<(sizeof(T) > sizeof(S)), T, S>::type Max(T x, S y) {
-	cout << sizeof(T) << " " << sizeof(S) << endl;
 	return x > y ? x : y;
 }
 
@@ -41,7 +40,23 @@ auto MaxMin(intPointer arr_pointer, intSize array_size) {
 	return make_pair(min, max);
 }
  
+template char Max(char x, char y);
 
+// Explicit Specialization
+template <>
+const char* Max<const char*>(const char* x, const char* y) {
+	return strcmp(x, y) > 0 ? x : y;
+}
+
+// Non type template arguments
+template<typename T, int size>
+T Sum(T(&parr)[size]) {
+	T sum{};
+	for (int i = 0; i < size; i++) {
+		sum += parr[i];
+	}
+	return sum;
+}
 int main() {
 
 	float a = 244;
@@ -49,9 +64,18 @@ int main() {
 	
 	cout << Max(a, b) << endl;
 
+	const char* arrA{ "B" };
+	const char* arrB{ "A" };
+
+	cout << Max(arrA, arrB) << endl;
+
+	int (*pfn)(int, int) = Max;
+
 	int arr[10]{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 	cout << ArraySum(arr, 10) << endl;
 	cout << MaxNumArr(arr, 10) << endl;
+	int* p = arr;
+	cout << Sum(arr) << endl;
 
 	auto [lowest, highest] = MaxMin(arr, 10);
 	cout << "Min: " << lowest << " | Max: " << highest << endl;
