@@ -1,4 +1,8 @@
 #pragma once
+#include <iostream> 
+
+using namespace std;
+
 class Integer {
 	int* m_pInt;
 public:
@@ -12,3 +16,5 @@ public:
 	void setValue(int value);
 	~Integer();
 };
+
+ostream& operator<<(ostream& os, const Integer& obj);

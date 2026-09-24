@@ -83,13 +83,27 @@ Empolyee* Create(T1&& a, T2&& b) {
 	return new Empolyee(forward<T1>(a), forward<T2>(b));
 }
 
+void Print() {
+	cout << endl;
+}
+template<typename T, typename... Params>
+void Print(T &&a, Params&&... args) {
+	cout << a;
+	if (sizeof... (args) != 0) cout << ", ";
+	Print(forward<Params>(args)...);
+}
+
 int main() {
 
+	Integer val{ 100 };
+	Print(0, val, Integer{ 2 });
+
+	//Print(1, 2, 3, 4, "abc", 's');
 	//Empolyee emp{ "Saiful", Integer{100} }; // even r-value, it calles copy constructor
 	//string name = "Saiful";
 	//Integer val{ 100 };
 	//Empolyee emp2{ name, val };
-	auto emp = Create("Saiful", Integer{ 100 });
+	//auto emp = Create("Saiful", Integer{ 100 });
 
 	//float a = 244;
 	//double b = 3.7;

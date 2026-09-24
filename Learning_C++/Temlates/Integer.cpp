@@ -1,3 +1,4 @@
+#pragma once
 #include "Integer.h"
 #include<iostream>
 
@@ -69,6 +70,11 @@ void Integer::setValue(int value)
 {
 	if (m_pInt == nullptr) m_pInt = new int{};
 	*m_pInt = value;
+}
+
+ostream& operator<<(ostream& os, const Integer& obj) {
+	os << obj.getValue();   // getValue() is public — no friend needed
+	return os;
 }
 
 Integer::~Integer()
