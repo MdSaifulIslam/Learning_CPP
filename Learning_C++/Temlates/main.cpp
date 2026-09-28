@@ -1,6 +1,7 @@
 #include<iostream>
 #include <utility>
 #include <string>
+#include<vector>
 #include "Integer.h"
 
 using namespace std;
@@ -128,19 +129,78 @@ Stack<T, size> Stack<T, size>::Create() {
 	return Stack<T, size>();
 }
 
+template<typename T>
+class Printer {
+	T* m_pData;
+public:
+	Printer(T* data) :m_pData(data) {
+
+	}
+	void Print() {
+		cout << "{ " << *m_pData << " }" << endl;
+	}
+	T* getData() {
+		return m_pData;
+	}
+};
+
+template<>
+void Printer<vector<int>>::Print() {
+	cout << "{ ";
+	for (const auto &x : *m_pData) {
+		cout << x << " ";
+	}
+	cout << "}" << endl;
+}
+//template<>
+//class Printer<char> {
+//	char* m_pData;
+//public:
+//	Printer(char* data) : m_pData(data) {}
+//	void Print() {
+//		cout << "{ " << m_pData << " }" << endl;   // pass char* → string overload
+//	}
+//	char* getData() {
+//		return m_pData;
+//	}
+//};
+
 int main() {
 
-	Stack<string, 100> s;
-	s.Push("77fgfgfdg");
-	s.Push("37fdgdfg");
-	s.Push("33tyrtyrty");
+	int data = 10;
+	float f = 77.77;
+	const char* p{ "Hello World" };
+	Printer<const char *> p1(&p);
+	p1.Print();
+	cout << p << " " << &p << " " << *(&p) << " " << **(&p) << endl;
+	cout << *(p1.getData()) << endl;
+	char buf[] = "Hello World buffer";
+	cout << buf << " " << &buf << " " << *(&buf) << " " << **(&buf) << endl;
+	Printer<char[19]> p2(&buf);
+	p2.Print();
+	cout << *(p2.getData()) << endl;
 
-	auto s2(s);
+	vector<int> v{ 1, 2, 3, 4, 5 };
+	Printer<vector<int>> pv(&v);
+	pv.Print();
+	auto p_pv = pv.getData();
 
-	while (!s2.isEmpty()) {
-		cout << s2.Top() << " ";
-		s2.Pop();
+	for (const auto& x : *p_pv) {
+		cout << x << " ";
 	}
+
+
+	//Stack<string, 100> s;
+	//s.Push("77fgfgfdg");
+	//s.Push("37fdgdfg");
+	//s.Push("33tyrtyrty");
+
+	//auto s2(s);
+
+	//while (!s2.isEmpty()) {
+	//	cout << s2.Top() << " ";
+	//	s2.Pop();
+	//}
 
 	//Integer val{ 100 };
 	//Print(0, val, Integer{ 2 });
