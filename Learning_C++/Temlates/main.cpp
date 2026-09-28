@@ -165,29 +165,108 @@ void Printer<vector<int>>::Print() {
 //	}
 //};
 
+template<typename T, int columns>
+class PartialPrinter {
+	T* m_pData;
+public:
+	PartialPrinter(T* data) :m_pData(data){}
+
+	void Print() {
+		cout << "Columns: " << columns << endl;
+		cout << "{ " << *m_pData << " }" << endl;
+	}
+	T* getData() {
+		return m_pData;
+	}
+};
+
+template<typename T>
+class PartialPrinter<T, 80> {
+	T* m_pData;
+public:
+	PartialPrinter(T* data) :m_pData(data){}
+	void Print() {
+		cout << "Total 80 Columns." << endl;
+		cout << "{ " << *m_pData << " }" << endl;
+	}
+	T* getData() {
+		return m_pData;
+	}
+};
+
+template<typename T>
+class SmartPointer {
+	T* m_ptr;
+public:
+	SmartPointer(T* ptr) : m_ptr(ptr) {}
+	T* operator -> () {
+		return m_ptr;
+	}
+	T& operator*() {
+		return *m_ptr;
+	}
+	void show() {
+		cout << *m_ptr << endl;
+	}
+	~SmartPointer() {
+		delete m_ptr;
+	}
+};
+
+template<typename T>
+class SmartPointer<T[]> {
+	T* m_ptr;
+public:
+	SmartPointer(T* ptr) : m_ptr(ptr) {}
+	T* operator -> () {
+		return m_ptr;
+	}
+	T& operator[](int index) {
+		return m_ptr[index];
+	}
+	void show() {
+		cout << *m_ptr << endl;
+	}
+	~SmartPointer() {
+		delete m_ptr;
+	}
+};
+
 int main() {
 
-	int data = 10;
-	float f = 77.77;
-	const char* p{ "Hello World" };
-	Printer<const char *> p1(&p);
-	p1.Print();
-	cout << p << " " << &p << " " << *(&p) << " " << **(&p) << endl;
-	cout << *(p1.getData()) << endl;
-	char buf[] = "Hello World buffer";
-	cout << buf << " " << &buf << " " << *(&buf) << " " << **(&buf) << endl;
-	Printer<char[19]> p2(&buf);
-	p2.Print();
-	cout << *(p2.getData()) << endl;
+	int data = 800;
+	PartialPrinter<int, 81>p{ &data };
+	p.Print();
 
-	vector<int> v{ 1, 2, 3, 4, 5 };
-	Printer<vector<int>> pv(&v);
-	pv.Print();
-	auto p_pv = pv.getData();
+	SmartPointer<int> s1{ new int {10} };
+	s1.show();
+	cout << s1.operator->() << endl;
 
-	for (const auto& x : *p_pv) {
-		cout << x << " ";
-	}
+	SmartPointer<int[]> s_arr{ new int[5] };
+	s_arr[0] = 100;
+	cout << s_arr[0] << endl;
+
+	//int data = 10;
+	//float f = 77.77;
+	//const char* p{ "Hello World" };
+	//Printer<const char *> p1(&p);
+	//p1.Print();
+	//cout << p << " " << &p << " " << *(&p) << " " << **(&p) << endl;
+	//cout << *(p1.getData()) << endl;
+	//char buf[] = "Hello World buffer";
+	//cout << buf << " " << &buf << " " << *(&buf) << " " << **(&buf) << endl;
+	//Printer<char[19]> p2(&buf);
+	//p2.Print();
+	//cout << *(p2.getData()) << endl;
+
+	//vector<int> v{ 1, 2, 3, 4, 5 };
+	//Printer<vector<int>> pv(&v);
+	//pv.Print();
+	//auto p_pv = pv.getData();
+
+	//for (const auto& x : *p_pv) {
+	//	cout << x << " ";
+	//}
 
 
 	//Stack<string, 100> s;
