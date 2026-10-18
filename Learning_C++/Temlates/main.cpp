@@ -232,19 +232,72 @@ public:
 	}
 };
 
+const char* GetErrorMessage(int errorNo) {
+	return "Error";
+}
+
+typedef const char* (*PFN)(int);
+void ShowError(const char* (*pfn)(int)) {
+	cout << pfn(100) << endl;
+}
+
+auto AUTOmax(auto a, auto b) {
+	return a > b ? a : b;
+}
+
+template<typename ...Args>
+auto Sum2(Args ...args) {
+	//return (args + ...); //Unary right fold
+	return(... + args); // Unary left fold
+}
+
+template<typename ...Args>
+auto Sum3(Args ...args) {
+	//return(10 + ... + args); // binay left
+	return(args + ... + 700); // binay rignt
+}
+
+int Show(int v) { cout << "evaluating " << v << "\n"; return v; }
+
+template<typename ...Args>
+bool Anyof(Args ...args) {
+	return (... || (args % 2 == 0));
+}
+
+template<typename ...Args>
+bool AllOfEven(Args ...args) {
+	return (... && (args % 2 == 0));
+}
+
+template<typename ...Args, typename Predicate>
+bool AllOfEvenWithPredicate(Predicate p, Args ...args) {
+	return (... && p(args));
+}
+
 int main() {
 
-	int data = 800;
-	PartialPrinter<int, 81>p{ &data };
-	p.Print();
+	cout << "All even? : " << AllOfEvenWithPredicate(([](int x) {return(x % 2 == 0);}), 10, 27, 30, 4, 150) << endl;
+	cout << "Any even? : " << Anyof(1, 2, 3, 4, 15) << endl;
+	cout << "Sum : " << Sum3(1, 2, 3, 4, 15) << endl;
+	cout << "Sum : " << Sum2(1, 2, 3, 4, 15) << endl;
+	Show((1, 2, 3, 4, 15)); // it will print only 15.
 
-	SmartPointer<int> s1{ new int {10} };
-	s1.show();
-	cout << s1.operator->() << endl;
+	//PFN pfn = GetErrorMessage;
+	//ShowError(pfn);
 
-	SmartPointer<int[]> s_arr{ new int[5] };
-	s_arr[0] = 100;
-	cout << s_arr[0] << endl;
+	//cout << AUTOmax(2, 3.3);
+
+	//int data = 800;
+	//PartialPrinter<int, 81>p{ &data };
+	//p.Print();
+
+	//SmartPointer<int> s1{ new int {10} };
+	//s1.show();
+	//cout << s1.operator->() << endl;
+
+	//SmartPointer<int[]> s_arr{ new int[5] };
+	//s_arr[0] = 100;
+	//cout << s_arr[0] << endl;
 
 	//int data = 10;
 	//float f = 77.77;
