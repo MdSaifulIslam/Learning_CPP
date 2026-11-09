@@ -2,6 +2,7 @@
 #include <functional>
 
 using namespace std;
+using namespace placeholders;
 
 int Square(int x) { return x * x; }
 int AddFive(int x) { return x + 5; }
@@ -15,25 +16,35 @@ int Operation(int x, int y, function<int(int, int)> callback) {
 	return callback(x, y);
 }
 
+int Accumulate(int x, int y, int z) {
+	return x + y + z;
+}
+
 int main() {
 
-	try
-	{
-		function<int(int, int)> fun = Add;
-		cout << Operation(5, 3, fun) << endl;
+	function<int(int, int)> fun = bind(Subtract, placeholders::_1, placeholders::_2);
+	cout << fun(77, 11) << endl;
 
-		fun = Subtract;
-		cout << Operation(5, 3, fun) << endl;
+	auto acc = bind(Accumulate, _1, _2, 0);
+	cout << Operation(8, 5, acc);
 
-		cout << Operation(5, 3, [](int x, int y) { return x * y;}) << endl;
+	//try
+	//{
+	//	function<int(int, int)> fun = Add;
+	//	cout << Operation(5, 3, fun) << endl;
 
-		//function<int(int)> f_squ = Square;
-		//cout << f_squ(7) << endl;
-	}
-	catch (const std::exception& ex)
-	{
-		cout << ex.what() << endl;
-	}
+	//	fun = Subtract;
+	//	cout << Operation(5, 3, fun) << endl;
+
+	//	cout << Operation(5, 3, [](int x, int y) { return x * y;}) << endl;
+
+	//	//function<int(int)> f_squ = Square;
+	//	//cout << f_squ(7) << endl;
+	//}
+	//catch (const std::exception& ex)
+	//{
+	//	cout << ex.what() << endl;
+	//}
 
 	//try
 	//{
