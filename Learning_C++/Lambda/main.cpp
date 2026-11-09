@@ -38,10 +38,48 @@ struct Unnamed
 	operator Fn()const { return Internal; }
 };
 
+template<typename T, int size, typename Callback>
+void ForEach(T(&arr)[size], Callback operation) {
+	for (int i = 0; i < size; i++) {
+		operation(arr[i]);
+	}
+}
+
+class Product {
+	string name;
+	float price;
+public:
+	Product(const string &n, float p):name(n), price(p){}
+	void AssignFinalPrice() {
+		float taxes[]{ 12, 5, 5 };
+		float basePrice{ price };
+		ForEach(taxes, [basePrice, this](float tax) {
+			float taxedPrice = basePrice * tax / 100;
+			price += taxedPrice;
+			});
+	}
+	float GetPrice() { return price; }
+};
+
 int main() {
 
+	// nasted lambda
+	[](int x) {
+		x *= 2;
+		[](int x) {
+			cout << x << endl;
+			}(x);
+		}(5);
+
+	static int i = 1000001;
+	atexit([]() {cout << i << endl;});
+
+	//Product product{"Watch", 500};
+	//product.AssignFinalPrice();
+	//cout << product.GetPrice() << endl;
+
 	AtExit handler{};
-	atexit(handler);
+	//atexit(handler);
 	//atexit([]() { cout << "End of program";});
 
 	[]() { cout << "This is a lambda function" << endl; }();
@@ -58,18 +96,35 @@ int main() {
 	CompFunObj compFunObj;
 
 	compFunObj(2, 3);
+	cout << "Printitng normal print ... \n";
 	for (auto a : arr) { cout << a << " "; }
 	cout << endl;
 
-	Sort(arr, compFunObj);
+	//Sort(arr, [](auto x, auto y) { return x < y;});
 
-	for (auto a : arr) { cout << a << " "; }
+	auto fnP = [](auto x, auto y) { return x < y;};
+	Sort(arr, fnP);
+
+	auto Cout = [](auto x) {cout << x << " ";};
+	cout << "Printitng after first sort x < y ... \n";
+	ForEach(arr, Cout);
 	cout << endl;
 
-	Sort(arr, CompLess);
+	Sort(arr, CompGrater);
 
-	for (auto a : arr) { cout << a << " "; }
-	cout << "\nEnd of main ..." << endl;
+	cout << "Printitng after second sort x > y ... \n";
+	ForEach(arr, Cout);
+	cout << endl;
+
+	int offset = 5;
+	ForEach(arr, [&offset](auto& x) {
+		x += offset;
+		++ offset;
+		});
+
+	cout << "Printitng after offset add ++offset + x ... \n";
+	ForEach(arr, Cout);
+	cout << " \nEnd of main ..." << endl;
 
 	return 0;
 }
