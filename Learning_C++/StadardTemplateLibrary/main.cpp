@@ -231,6 +231,11 @@ public:
 	//}
 };
 
+struct ProIds {
+	vector<int> ids;
+	void operator()(const Programmer& p) { if (p.getPrgrammingLanguage() == "R") ids.push_back(p.getId()); }
+};
+
 void AlgoSort() {
 	vector<Programmer> p1{
 		Programmer{ "Afzal", 101, "c++" },
@@ -256,6 +261,18 @@ void AlgoSort() {
 	int rCount{};
 	rCount = count_if(p1.begin(), p1.end(), [](const auto& p) { return p.getPrgrammingLanguage() == "R";});
 	cout << rCount << endl;
+
+	auto itr = find_if(p1.begin(), p1.end(), [](const auto& p) { return p.getPrgrammingLanguage() == "python";});
+	if (itr != p1.end()) { cout << "Found : " << itr->getName() << " is a python programmar"; }
+	cout << endl;
+
+	for_each(p1.begin(), p1.end(), [](const auto& p) { if (p.getPrgrammingLanguage() == "R") cout << " Name: " << p.getName() << endl;});
+
+	auto rIds = for_each(p1.begin(), p1.end(), ProIds()); 
+
+	cout << "Ids of R programmers: " << endl;
+	for (auto ids : rIds.ids) { cout << ids << endl; }
+
 }
 
 int main() {
