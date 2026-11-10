@@ -6,6 +6,7 @@
 #include <random>
 #include <queue>
 #include <map>
+#include <algorithm>
 
 using namespace std;
 
@@ -179,8 +180,8 @@ struct stArr{
 
 void StructuredBinding() {
 
-	stArr sa;
-	auto [arr1, arr2] = sa; // it didn't deduce to pointer.
+	//stArr sa;
+	//auto [arr1, arr2] = sa; // it didn't deduce to pointer.
 
 	Employee em{ "Abbas", 1001 };
 	auto &[name, id] = em;
@@ -202,9 +203,64 @@ void StructuredBinding() {
 
 };
 
+class Programmer {
+
+public:
+	string name;
+	int id;
+	string proLan;
+
+	Programmer(const string name, int id, const string proLan) : 
+		name(name),
+		id(id),
+		proLan(proLan){
+	}
+
+	const string & getName() const {
+		return name;
+	}
+	const int getId() const {
+		return id;
+	}
+	const string& getPrgrammingLanguage() const {
+		return proLan;
+	}
+
+	//bool operator < (const Programmer& p) {
+	//	return id < p.id;
+	//}
+};
+
+void AlgoSort() {
+	vector<Programmer> p1{
+		Programmer{ "Afzal", 101, "c++" },
+		Programmer{ "Jamil", 901, "python" },
+		Programmer{ "Sajjad", 201, "R" },
+		Programmer{ "kamal", 779, "R" },
+		Programmer{ "Faruk", 782, "R" }
+	};
+
+
+	for (auto& [name, id, proLan] : p1) {
+		cout << name << " " << id << " " << proLan << endl;
+	}
+
+	sort(p1.begin(), p1.end(), [](const auto& p1, const auto& p2) { return p1.getName() < p2.getName(); });
+
+	cout << endl << "After sorted by name ... " << endl;
+
+	for (auto &[name, id, proLan] : p1) {
+		cout << name << " " << id << " " << proLan << endl;
+	}
+
+	int rCount{};
+	rCount = count_if(p1.begin(), p1.end(), [](const auto& p) { return p.getPrgrammingLanguage() == "R";});
+	cout << rCount << endl;
+}
+
 int main() {
 
-	StructuredBinding();
+	AlgoSort();
 
 	return 0;
 }
