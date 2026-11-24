@@ -1,4 +1,7 @@
+#pragma once
 #include <iostream>
+#include <vector>
+#include <string>
 #include <set>
 #include <functional>
 #include <unordered_map>
@@ -7,6 +10,9 @@
 #include <queue>
 #include <map>
 #include <algorithm>
+#include "Integer.h"
+#include <fstream>
+#include <filesystem>
 
 using namespace std;
 
@@ -210,7 +216,7 @@ public:
 	int id;
 	string proLan;
 
-	Programmer(const string name, int id, const string proLan) : 
+	Programmer(const string& name, int id, const string& proLan) : 
 		name(name),
 		id(id),
 		proLan(proLan){
@@ -219,7 +225,7 @@ public:
 	const string & getName() const {
 		return name;
 	}
-	const int getId() const {
+	int getId() const {
 		return id;
 	}
 	const string& getPrgrammingLanguage() const {
@@ -262,8 +268,8 @@ void AlgoSort() {
 	rCount = count_if(p1.begin(), p1.end(), [](const auto& p) { return p.getPrgrammingLanguage() == "R";});
 	cout << rCount << endl;
 
-	auto itr = find_if(p1.begin(), p1.end(), [](const auto& p) { return p.getPrgrammingLanguage() == "python";});
-	if (itr != p1.end()) { cout << "Found : " << itr->getName() << " is a python programmar"; }
+	auto itr = find_if(p1.begin(), p1.end(), [](const auto& p) { return p.getPrgrammingLanguage() == "R";});
+	if (itr != p1.end()) { cout << "Found : " << itr->getName() << " is a R programmar"; }
 	cout << endl;
 
 	for_each(p1.begin(), p1.end(), [](const auto& p) { if (p.getPrgrammingLanguage() == "R") cout << " Name: " << p.getName() << endl;});
@@ -277,7 +283,41 @@ void AlgoSort() {
 
 int main() {
 
-	AlgoSort();
+	vector<Integer> vInt;
+	//Integer val{ 5 };
+	////vInt.push_back(4);
+	vInt.emplace_back(1);
+	vInt.emplace_back(2);
+	vInt.emplace_back(3);
+	//vInt.emplace_back(4);
+	//vInt.emplace_back(5);
+
+	vector <pair<int, string>> data;
+	data.push_back(pair<int, string>{100, "python"});
+	data.emplace_back(100, "C++");
+
+	for (auto d : data) {
+		cout << d.first << " " << d.second << endl;
+	}
+
+
+
+	//AlgoSort();
+
+	//ifstream input("main.cpp");
+	//if (!input) {
+	//	cout << "Could not open file" << endl;
+	//	return -1;
+	//}
+
+	//auto size = filesystem::file_size("main.cpp");
+	//cout << "size: " << size << endl;
+
+	//string buffer;
+	//buffer.resize(size);
+
+	//input.read(buffer.data(), size);
+	//cout << buffer.data() << endl;
 
 	return 0;
 }
