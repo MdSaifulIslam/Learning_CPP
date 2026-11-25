@@ -13,6 +13,10 @@
 #include "Integer.h"
 #include <fstream>
 #include <filesystem>
+#include <chrono>
+#include <execution>
+#include <random>
+#include <string_view>
 
 using namespace std;
 
@@ -281,24 +285,56 @@ void AlgoSort() {
 
 }
 
+class Timer {
+	chrono::steady_clock::time_point m_start;
+public:
+	Timer() :m_start{ chrono::steady_clock::now() } {};
+	void showTimeDifference(string_view message = "") {
+		auto end = chrono::steady_clock::now();
+		auto timeDifference = end - m_start;
+		cout << message
+			<< ":"
+			<< chrono::duration_cast<chrono::milliseconds>(timeDifference).count()
+			<< endl;
+	}
+};
+
+constexpr unsigned VEC_SIZE{ 1000000 };
+vector<long> CreateVector() {
+	vector<long> vec;
+	vec.reserve(VEC_SIZE);
+	default_random_engine engine{ random_device{}() };
+	uniform_int_distribution<long> dist{ 0, VEC_SIZE };
+	for (unsigned i = 0; i < VEC_SIZE; i++) {
+		vec.push_back(dist(engine));
+	}
+
+	return vec;
+}
+
 int main() {
 
-	vector<Integer> vInt;
-	//Integer val{ 5 };
-	////vInt.push_back(4);
-	vInt.emplace_back(1);
-	vInt.emplace_back(2);
-	vInt.emplace_back(3);
-	//vInt.emplace_back(4);
-	//vInt.emplace_back(5);
+	auto dataset = CreateVector();
+	Timer t;
+	sort(execution::par, dataset.begin(), dataset.end());
+	t.showTimeDifference("Sorting time");
 
-	vector <pair<int, string>> data;
-	data.push_back(pair<int, string>{100, "python"});
-	data.emplace_back(100, "C++");
+	//vector<Integer> vInt;
+	////Integer val{ 5 };
+	//////vInt.push_back(4);
+	//vInt.emplace_back(1);
+	//vInt.emplace_back(2);
+	//vInt.emplace_back(3);
+	////vInt.emplace_back(4);
+	////vInt.emplace_back(5);
 
-	for (auto d : data) {
-		cout << d.first << " " << d.second << endl;
-	}
+	//vector <pair<int, string>> data;
+	//data.push_back(pair<int, string>{100, "python"});
+	//data.emplace_back(100, "C++");
+
+	//for (auto d : data) {
+	//	cout << d.first << " " << d.second << endl;
+	//}
 
 
 
