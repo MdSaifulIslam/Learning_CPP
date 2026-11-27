@@ -6,12 +6,13 @@
 #include <algorithm>
 #include <list>
 #include <ranges>
+#include <format>
 
 using namespace std;
 
 template<typename Container>
 void Print(const Container& container, string_view message = "", string_view sep = " ") {
-	cout << "#### " << (message.empty() ? "No Output" : message) << " ####" << endl;
+	cout << "#### " << (message.empty() ? "Output" : message) << " ####" << endl;
 	cout << "[ ";
 	string_view tab = "";
 	if (sep == "\n") {
@@ -24,6 +25,87 @@ void Print(const Container& container, string_view message = "", string_view sep
 	cout << "]" << endl << endl;
 }
 
+class Programmer {
+
+public:
+	string name;
+	int id;
+	string proLan;
+
+	Programmer(const string& name, int id, const string& proLan) :
+		name(name),
+		id(id),
+		proLan(proLan) {
+	}
+
+	const string& getName() const {
+		return name;
+	}
+	int getId() const {
+		return id;
+	}
+	const string& getPrgrammingLanguage() const {
+		return proLan;
+	}
+	friend ostream& operator <<(ostream& os, const Programmer& pro) {
+		return os << format(
+			"{:<6} {:<12} {:<6}",
+			pro.id,
+			pro.name,
+			pro.proLan
+		);
+	}
+};
+
+struct ProIds {
+	vector<int> ids;
+	void operator()(const Programmer& p) { if (p.getPrgrammingLanguage() == "R") ids.push_back(p.getId()); }
+};
+
+void AlgoSort() {
+	vector<Programmer> p1{
+		Programmer{ "Afzal", 101, "c++" },
+		Programmer{ "Jamil", 901, "python" },
+		Programmer{ "Sajjad", 201, "R" },
+		Programmer{ "kamal", 779, "R" },
+		Programmer{ "Faruk", 782, "R" },
+		Programmer{ "Sakil", 109, "c++" },
+		Programmer{ "Kawsar", 77, "python" },
+		Programmer{ "Jamal", 78, "R" },
+		Programmer{ "Firoj", 54, "R" },
+		Programmer{ "Mosaddek", 41, "R" }
+	};
+
+
+	for (auto& [name, id, proLan] : p1) {
+		cout << name << " " << id << " " << proLan << endl;
+	}
+
+	sort(p1.begin(), p1.end(), [](const auto& p1, const auto& p2) { return p1.getName() < p2.getName(); });
+
+	Print(p1, "Sorted Programmer");
+
+	for (auto& [name, id, proLan] : p1) {
+		cout << name << " " << id << " " << proLan << endl;
+	}
+
+	int rCount{};
+	rCount = count_if(p1.begin(), p1.end(), [](const auto& p) { return p.getPrgrammingLanguage() == "R";});
+	cout << rCount << endl;
+
+	auto itr = find_if(p1.begin(), p1.end(), [](const auto& p) { return p.getPrgrammingLanguage() == "R";});
+	if (itr != p1.end()) { cout << "Found : " << itr->getName() << " is a R programmar"; }
+	cout << endl;
+
+	for_each(p1.begin(), p1.end(), [](const auto& p) { if (p.getPrgrammingLanguage() == "R") cout << " Name: " << p.getName() << endl;});
+
+	auto rIds = for_each(p1.begin(), p1.end(), ProIds());
+
+	cout << "Ids of R programmers: " << endl;
+	for (auto ids : rIds.ids) { cout << ids << endl; }
+
+}
+
 int main() {
 
 	vector<int> data(20);
@@ -31,18 +113,18 @@ int main() {
 	Print(data, "data");
 
 	random_device rd;
-	shuffle(data.begin(), data.end(), rd);
+	ranges::shuffle(data, rd);
 	Print(data, "Shuffeled Data");
 
-	sort(data.begin(), data.end());
+	ranges::sort(data);
 	Print(data, "Sorted Data");
 
 	list<int> dest(10);
-	auto out = copy(data.begin(), data.begin() + 5, dest.begin());
-	Print(ranges::subrange{ dest.begin(), out });
+	auto result = ranges::copy(data.begin(), data.begin() + 5, dest.begin());
+	Print(ranges::subrange{ dest.begin(), result.out }, "Non-Zero dest");
 
-	for_each(dest.begin(), out, [](int& x) { if (x % 2 != 0) x *= 2; });
-	Print(ranges::subrange{ dest.begin(), out }, "Odd doubled");
+	ranges::for_each(dest, [](int& x) { if (x % 2 != 0) x *= 2; });
+	Print(dest, "Odd doubled");
 
 	return 0;
 }
