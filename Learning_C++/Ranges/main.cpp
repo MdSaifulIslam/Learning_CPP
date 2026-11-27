@@ -67,7 +67,7 @@ void AlgoSort() {
 		Programmer{ "Afzal", 101, "c++" },
 		Programmer{ "Jamil", 901, "python" },
 		Programmer{ "Sajjad", 201, "R" },
-		Programmer{ "kamal", 779, "R" },
+		Programmer{ "Kamal", 779, "R" },
 		Programmer{ "Faruk", 782, "R" },
 		Programmer{ "Sakil", 109, "c++" },
 		Programmer{ "Kawsar", 77, "python" },
@@ -76,55 +76,49 @@ void AlgoSort() {
 		Programmer{ "Mosaddek", 41, "R" }
 	};
 
+	ranges::sort(p1, [](const auto& p1, const auto& p2) { return p1.getName() < p2.getName(); });
 
-	for (auto& [name, id, proLan] : p1) {
-		cout << name << " " << id << " " << proLan << endl;
-	}
-
-	sort(p1.begin(), p1.end(), [](const auto& p1, const auto& p2) { return p1.getName() < p2.getName(); });
-
-	Print(p1, "Sorted Programmer");
-
-	for (auto& [name, id, proLan] : p1) {
-		cout << name << " " << id << " " << proLan << endl;
-	}
+	Print(p1, "Sorted Programmer by name", "\n");
 
 	int rCount{};
-	rCount = count_if(p1.begin(), p1.end(), [](const auto& p) { return p.getPrgrammingLanguage() == "R";});
-	cout << rCount << endl;
+	rCount = ranges::count_if(p1, [](const auto& p) { return p.getPrgrammingLanguage() == "R";});
+	cout << "R programmer count: " << rCount << endl;
 
-	auto itr = find_if(p1.begin(), p1.end(), [](const auto& p) { return p.getPrgrammingLanguage() == "R";});
+	auto itr = ranges::find_if(p1, [](const auto& p) { return p.getPrgrammingLanguage() == "R";});
 	if (itr != p1.end()) { cout << "Found : " << itr->getName() << " is a R programmar"; }
 	cout << endl;
 
-	for_each(p1.begin(), p1.end(), [](const auto& p) { if (p.getPrgrammingLanguage() == "R") cout << " Name: " << p.getName() << endl;});
+	cout << "All R programmer's name: " << endl;
+	ranges::for_each(p1, [](const auto& p) { if (p.getPrgrammingLanguage() == "R") cout << " Name: " << p.getName() << endl;});
 
-	auto rIds = for_each(p1.begin(), p1.end(), ProIds());
+	auto rIds = ranges::for_each(p1, ProIds());
 
 	cout << "Ids of R programmers: " << endl;
-	for (auto ids : rIds.ids) { cout << ids << endl; }
+	for (int id : rIds.fun.ids) { cout << "Ids: " << id << endl; }
 
 }
 
 int main() {
 
-	vector<int> data(20);
-	iota(data.begin(), data.end(), 20);
-	Print(data, "data");
+	AlgoSort();
 
-	random_device rd;
-	ranges::shuffle(data, rd);
-	Print(data, "Shuffeled Data");
+	//vector<int> data(20);
+	//iota(data.begin(), data.end(), 20);
+	//Print(data, "data");
 
-	ranges::sort(data);
-	Print(data, "Sorted Data");
+	//random_device rd;
+	//ranges::shuffle(data, rd);
+	//Print(data, "Shuffeled Data");
 
-	list<int> dest(10);
-	auto result = ranges::copy(data.begin(), data.begin() + 5, dest.begin());
-	Print(ranges::subrange{ dest.begin(), result.out }, "Non-Zero dest");
+	//ranges::sort(data);
+	//Print(data, "Sorted Data");
 
-	ranges::for_each(dest, [](int& x) { if (x % 2 != 0) x *= 2; });
-	Print(dest, "Odd doubled");
+	//list<int> dest(10);
+	//auto result = ranges::copy(data.begin(), data.begin() + 5, dest.begin());
+	//Print(ranges::subrange{ dest.begin(), result.out }, "Non-Zero dest");
+
+	//ranges::for_each(dest, [](int& x) { if (x % 2 != 0) x *= 2; });
+	//Print(dest, "Odd doubled");
 
 	return 0;
 }
