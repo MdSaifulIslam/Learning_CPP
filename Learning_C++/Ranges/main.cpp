@@ -98,6 +98,20 @@ void AlgoSort() {
 	cout << "Ids of R programmers: " << endl;
 	for (int id : rIds.fun.ids) { cout << "Ids: " << id << endl; }
 
+	std::vector<int> numbers = { 1, 2, 3, 4, 5, 6, 7, 8 };
+
+	// Build a lazy pipeline using range adaptors
+	// Nothing is executed yet!
+	auto even_squares = numbers
+		| std::views::filter([](int n) { return n % 2 == 0; }) // Keep 2, 4, 6, 8
+		| std::views::transform([](int n) { return n * n; })   // Square them
+		| std::views::take(2);                                 // Only take the first 2
+
+	// Computation happens lazily right here during iteration
+	for (int val : even_squares) {
+		std::cout << val << ' '; // Outputs: 4 16
+	}
+
 }
 
 int main() {
