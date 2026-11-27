@@ -76,15 +76,17 @@ void AlgoSort() {
 		Programmer{ "Mosaddek", 41, "R" }
 	};
 
-	ranges::sort(p1, [](const auto& p1, const auto& p2) { return p1.getName() < p2.getName(); });
-
+	ranges::sort(p1, less{}, &Programmer::getName);
 	Print(p1, "Sorted Programmer by name", "\n");
 
-	int rCount{};
-	rCount = ranges::count_if(p1, [](const auto& p) { return p.getPrgrammingLanguage() == "R";});
-	cout << "R programmer count: " << rCount << endl;
+	ranges::sort(p1, less{}, &Programmer::getId);
+	Print(p1, "Sorted Programmer by ID", "\n");
 
-	auto itr = ranges::find_if(p1, [](const auto& p) { return p.getPrgrammingLanguage() == "R";});
+	int rCount{};
+	rCount = ranges::count(p1, "c++", &Programmer::getPrgrammingLanguage);
+	cout << "C++ programmer count: " << rCount << endl;
+
+	auto itr = ranges::find(p1, "R", &Programmer::getPrgrammingLanguage);
 	if (itr != p1.end()) { cout << "Found : " << itr->getName() << " is a R programmar"; }
 	cout << endl;
 
