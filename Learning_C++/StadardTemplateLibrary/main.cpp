@@ -17,6 +17,7 @@
 #include <execution>
 #include <random>
 #include <string_view>
+#include <variant>
 
 using namespace std;
 
@@ -312,12 +313,64 @@ vector<long> CreateVector() {
 	return vec;
 }
 
+struct Number {
+	int m_Num{};
+	Number(int num) : m_Num(num) { cout << __FUNCSIG__ << endl; }
+	Number() { cout << __FUNCSIG__ << endl; }
+	~Number() { cout << __FUNCSIG__ << endl; }
+	Number(const Number& other) : m_Num(other.m_Num) { cout << __FUNCSIG__ << endl; }
+	Number(Number&& other) noexcept : m_Num(other.m_Num) { cout << __FUNCSIG__ << endl; }
+	Number& operator=(const Number& other) {
+		cout << __FUNCSIG__ << endl;
+		if (this == &other) return *this;
+		m_Num = other.m_Num;
+		return *this;
+	}
+	Number& operator=(const Number&& other) noexcept {
+		cout << __FUNCSIG__ << endl;
+		if (this == &other) return *this;
+		m_Num = other.m_Num;
+		return *this;
+	}
+	friend std::ostream& operator <<(std::ostream& out, const Number& n) {
+		return out << n.m_Num;
+	}
+};
+
+struct Modifier {
+	void operator()(string& s)const { s += " modified string"; }
+	void operator()(int& x)const { x += 100; }
+	void operator()(Number& n)const { n.m_Num = 999; }
+};
+struct Visitor {
+	void operator()(string& s)const { cout << "String: " << s << endl; }
+	void operator()(int& x)const { cout << "Int: " << x << endl; }
+	void operator()(const Number& n)const { cout << "Number: " << n << endl; }
+};
+
 int main() {
 
-	auto dataset = CreateVector();
-	Timer t;
-	sort(execution::par, dataset.begin(), dataset.end());
-	t.showTimeDifference("Sorting time");
+	try {
+		variant<string, int, Number> v{ Number{ 10 } };
+		visit(Modifier{}, v);
+		visit(Visitor{}, v);
+		v = "Saiful";
+		visit(Modifier{}, v);
+		visit(Visitor{}, v);
+		auto val = get<0>(v);
+		cout << val << endl;
+
+		auto* p = get_if<string>(&v);
+		cout << *p << endl;
+	}
+	catch(exception &ex){
+		cout << "Exception: " << ex.what() << endl;
+	}
+
+	//auto dataset = CreateVector();
+	//Timer t;
+	//sort(execution::par, dataset.begin(), dataset.end());
+	//t.showTimeDifference("Sorting time");
 
 	//vector<Integer> vInt;
 	////Integer val{ 5 };
