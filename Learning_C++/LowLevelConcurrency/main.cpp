@@ -4,11 +4,12 @@
 #include <vector>
 #include <future>
 #include <mutex>
+#include <Windows.h>
 
 using namespace std;
 
 list<int> d_Data;
-const int SIZE = 100000;
+const int len = 100000;
 
 class String {
 public:
@@ -27,20 +28,18 @@ public:
 mutex d_Mutex;
 void download() {
 
-	for (int i = 0; i < SIZE; i++) {
-		d_Mutex.lock();
+	for (int i = 0; i < len; i++) {
+		lock_guard<mutex> mtx(d_Mutex);
 		d_Data.push_back(i);
 		if (i == 700) return;
-		d_Mutex.unlock();
 	}
 }
 
 void download2() {
 
-	for (int i = 0; i < SIZE; i++) {
-		d_Mutex.lock();
+	for (int i = 0; i < len; i++) {
+		lock_guard<mutex> mtx(d_Mutex);
 		d_Data.push_back(i);
-		d_Mutex.unlock();
 	}
 }
 
@@ -56,15 +55,39 @@ int Compute(const vector<int> &data) {
 	}
 	return sum;
 }
+
+void Process(){
+
+	cout << "Thread ID: " << this_thread::get_id() << endl;
+	for (int i = 0; i < 10; i++) {
+		cout << i << endl;
+		this_thread::sleep_for(chrono::seconds(1));
+	}
+
+}
+
 int main() {
 
-	thread thDownloader(download);
-	thread thDownloader2(download2);
+	thread t1{ Process };
+	HANDLE hndl = t1.native_handle();
+	SetThreadDescription(hndl, L"T1-Peocess Thread");
 
-	thDownloader.join();
-	thDownloader2.join();
+	auto id = t1.get_id();
+	cout << "Process ID: " << id << endl;
 
-	cout << d_Data.size() << endl;
+	int cores = thread::hardware_concurrency();
+	cout << "Cores: " << cores << endl;
+	cout << "Printing ... " << endl;
+
+	t1.join();
+
+	//thread thDownloader(download);
+	//thread thDownloader2(download2);
+
+	//thDownloader.join();
+	//thDownloader2.join();
+
+	//cout << d_Data.size() << endl;
 
 	//String file;
 	//cout << "[main] User Operation Started" << endl;
